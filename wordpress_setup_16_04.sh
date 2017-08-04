@@ -8,6 +8,7 @@ apt-get install -y php libapache2-mod-php php-mcrypt php-mysql
 wget https://wordpress.org/latest.tar.gz
 tar -xvf latest.tar.gz
 mv wordpress/* /var/www/html
+rm -rf wordpress
 chown -R www-data:www-data /var/www/html
 rm -rf latest.tar.gz
 rm -rf /var/www/html/index.html
