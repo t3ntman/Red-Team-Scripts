@@ -4,7 +4,7 @@ apt-get update
 apt-get -y upgrade
 apt-get install -y apache2
 apt-get install -y mysql-server
-apt-get install -y php libapache2-mod-php php-mcrypt php-mysql
+apt-get install -y php libapache2-mod-php php-mcrypt php-mysql php-gd
 wget https://wordpress.org/latest.tar.gz
 tar -xvf latest.tar.gz
 mv wordpress/* /var/www/html
