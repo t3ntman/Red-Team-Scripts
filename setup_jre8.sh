@@ -7,9 +7,9 @@ tar -xvf jre-8u151-linux-x64.tar.gz
 
 rm -rf jre-8u151-linux-x64.tar.gz
 
-mv jre1.8.0_151 /usr/local
+sudo mv jre1.8.0_151 /usr/local
 
-rm -rf /usr/local/bin/java
+sudo rm -rf /usr/local/bin/java
 
 sudo ln -s /usr/local/jre1.8.0_151/bin/java /usr/local/bin/java
 sudo ln -s /usr/local/jre1.8.0_151/bin/javaws /usr/local/bin/javaws
