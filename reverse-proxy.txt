@@ -1,0 +1,5 @@
+# creates reverse proxy to https://www.google.com (domain should be changed)
+# useful for domain categorization
+
+pip3 install mitmproxy
+mitmproxy -R https://www.google.com -p 443
