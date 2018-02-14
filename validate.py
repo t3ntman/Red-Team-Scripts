@@ -2,20 +2,28 @@ from datetime import datetime
 import subprocess
 import sys
 
-# gets the expiration date from the certificate information
-# converts that string into a datetime object
-# returns converted datetime object
-def parse_expiration_date():
-	with open(sys.argv[1], 'r') as f:
+# gets certificate expiration date in datetime format
+def parse_expiration_date(log):
+	with open(log, 'r') as f:
 		lines = f.readlines()
 
 		for line in lines:
 			if 'Not valid after:' in line:
-				expiration = line.replace('Not valid after:', '')
-				expiration = expiration.replace(' GMT', '')
-				expiration = expiration.strip() # strips out tab
-				expiration = datetime.strptime(expiration, '%b %d %X %Y')
-				return expiration
+				exp = line.replace('Not valid after:', '')
+				exp = exp.replace(' GMT', '')
+				exp = exp.strip() # strips out whitespace
+				exp = datetime.strptime(exp, '%b %d %X %Y')
+				return exp
+
+# determines if certificate is expired
+def is_expired(expiration_date):
+	current_date = datetime.now()
+
+	if current_date > expiration_date:
+		return True
+
+	else:
+		return False
 
 if __name__ == '__main__':
 	# opens write file handle
@@ -26,14 +34,9 @@ if __name__ == '__main__':
 			 	     shell=True)
 		p.wait()
 
-	expiration_date = parse_expiration_date()
-	current_date = datetime.now()
+	expiration_date = parse_expiration_date(sys.argv[1])
 
-	if current_date > expiration_date:
-		print("Expired")
-
-	else:
-		print("Not Expired")
+	print(is_expired(expiration_date))
 
 '''
 	# opens read file handle
