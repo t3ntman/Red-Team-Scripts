@@ -2,6 +2,7 @@
 # validates nessus certificate issues
 # basically a wrapper around sslscan because laziness ¯\_(ツ)_/¯
 # stores all sslscan output in the "output" directory (created if not already present)
+# disclaimer: wrote in a few hours - should probably qa a bit more
 
 import argparse
 import csv
@@ -18,6 +19,18 @@ poodle = []			# sslv3 poodle list
 logjam = []			# logjam list
 signed_weak_alg = []		# signed using weak hashing algorithm list
 robot = []			# robot list
+
+# validated lists
+v_medium_ciphers = []
+v_rc4_ciphers = []
+v_self_signed = []
+v_expired = []
+v_weak_rsa_keys = []
+v_drown = []
+v_poodle = []
+v_logjam = []
+v_signed_weak_alg = []
+v_robot = []
 
 if __name__ == '__main__':
 	# parses arguments
@@ -89,7 +102,7 @@ if __name__ == '__main__':
 	if os.path.exists('output') == False:
 		os.makedirs('output')
 
-	# runs sslscan on each de-duped systems	
+	# runs sslscan on each de-duped system
 	for system in all_systems:
 		log = open('output/' + system + '.txt', 'w')
 		
