@@ -18,7 +18,6 @@ drown = []			# sslv2 drown list
 poodle = []			# sslv3 poodle list
 logjam = []			# logjam list
 signed_weak_alg = []		# signed using weak hashing algorithm list
-robot = []			# robot list
 
 # validated lists
 v_medium_ciphers = []
@@ -30,7 +29,6 @@ v_drown = []
 v_poodle = []
 v_logjam = []
 v_signed_weak_alg = []
-v_robot = []
 
 if __name__ == '__main__':
 	# parses arguments
@@ -82,10 +80,6 @@ if __name__ == '__main__':
 				if row['Plugin ID'] == '35291':
 					signed_weak_alg.append(row['Host'] + ':' + row['Port'])
 
-				# robot
-				if row['Plugin ID'] == '105415':
-					robot.append(row['Host'] + ':' + row['Port'])
-
 	# combines all lists and de-dupes
 	all_systems = list(set(medium_ciphers +
 		    	       rc4_ciphers +
@@ -95,8 +89,7 @@ if __name__ == '__main__':
 			       drown +
 			       poodle +
 			       logjam +
-			       signed_weak_alg +
-			       robot))
+			       signed_weak_alg))
 	
 	# creates output directory to store sslscan output
 	if os.path.exists('output') == False:
@@ -104,6 +97,7 @@ if __name__ == '__main__':
 
 	# runs sslscan on each de-duped system
 	for system in all_systems:
+		# creates file if it does not exist
 		log = open('output/' + system + '.txt', 'w')
 		
 		print('validating ' + system)
@@ -140,7 +134,16 @@ if __name__ == '__main__':
 					     shell=True)
 			p.wait()
 
-		# TO DO: validate each cert finding here
+		# opens new file handle as read-only
+		# not sure why this can't be done in the previous open statement
+		with open('output/' + system + '.txt', 'r') as f:
+			for line in f:
+				if '112' in line:
+					print(line)
+
+				if 'RC4' in line:
+					print(line)
+
 		# TO DO: append validated systems to new list here
 
 	print('validation complete - full sslscan output saved in "output" directory')
