@@ -145,3 +145,11 @@ if __name__ == '__main__':
             p.wait()
 
         log.close()  # closes initial write file handle
+
+        # opens read-only file handle
+        f = open('output/' + system + '.txt', 'r')
+        log = f.read()
+
+        # TO DO: do regex checks of sslscan output here
+
+        f.close()  # closes read-only file handle
